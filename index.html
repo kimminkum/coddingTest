@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>coding</title>
+  </head>
+  <body>
+    <h1 id="sound"></h1>
+    <input id="name" type="text" />
+    <button onclick="getSound()">API 요청</button>
+    <script>
+      function getSound() {
+        const name = document.getElementById("name").value;
+        fetch(`http://localhost:3000/sound/${name}`)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data.sound);
+            document.getElementById("sound").innerHTML = data.sound;
+          });
+      }
+      //풀스택 강의 시작
+      // mySQL부터
+      // mysql ing
+      // 11.18 mysql node.js 연동에 대해 공부 // 강의 중간에 끊겨서 다른 강의 처음으로 돌아감. 2023.11.20
+    </script>
+    <script src="index.js"></script>
+  </body>
+</html>
