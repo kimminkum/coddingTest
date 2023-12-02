@@ -3,7 +3,7 @@ var cors = require("cors");
 const mysql = require("mysql"); // mysql 모듈 로드
 const app = express();
 const ports = 3000;
-//ing new database2 ingdddd
+//ing new database2 ingdddd my sql ing
 app.use(cors());
 
 app.get("/", function(req, res) {
