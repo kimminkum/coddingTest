@@ -69,24 +69,29 @@ var app = http.createServer(function(request, response) {
     }
   } else if (pathname === "/create") {
     db.query(`SELECT * FROM topic`, (error, results) => {
-      var title = "Create";
-      var list = template.list(results);
-      var html = template.HTML(
-        title,
-        list,
-        `<form action="/create_process" method="post">
-        <p><input type="text" name="title" placeholder="title"></p>
-        <p>
-          <textarea name="description" placeholder="description"></textarea>
-        </p>
-        <p>
-          <input type="submit">
-        </p>
-      </form>`,
-        `<a href="/create">create</a>`
-      );
-      response.writeHead(200);
-      response.end(html);
+      db.query(`SELECT * FROM author`, (error2, authors) => {
+        var title = "Create";
+        var list = template.list(results);
+        var html = template.HTML(
+          title,
+          list,
+          `<form action="/create_process" method="post">
+          <p><input type="text" name="title" placeholder="title"></p>
+          <p>
+            <textarea name="description" placeholder="description"></textarea>
+          </p>
+          <p>
+            ${template.authorSelect(authors)}
+          </p>
+          <p>
+            <input type="submit">
+          </p>
+        </form>`,
+          `<a href="/create">create</a>`
+        );
+        response.writeHead(200);
+        response.end(html);
+      });
     });
   } else if (pathname === "/create_process") {
     var body = "";
@@ -98,7 +103,7 @@ var app = http.createServer(function(request, response) {
       db.query(
         `INSERT INTO topic (title, description, created, author_id) 
         VALUES (?, ?, NOW(), ?)`,
-        [post.title, post.description, 1],
+        [post.title, post.description, post.author],
         function(error, result) {
           if (error) {
             throw error;
@@ -136,6 +141,9 @@ var app = http.createServer(function(request, response) {
                   .description}</textarea>
               </p>
               <p>
+                ${template.authorSelect(authors, topic[0].author_id)}
+              </p>
+              <p>
                 <input type="submit">
               </p>
             </form>
@@ -157,8 +165,8 @@ var app = http.createServer(function(request, response) {
       var post = qs.parse(body);
 
       db.query(
-        `UPDATE topic SET title=?, description=?, author_id=1 WHERE id=?`,
-        [post.title, post.description, post.id],
+        `UPDATE topic SET title=?, description=?, author_id=? WHERE id=?`,
+        [post.title, post.description, post.author, post.id],
         (err, result) => {
           response.writeHead(302, { Location: `/?id=${post.id}` });
           response.end();
