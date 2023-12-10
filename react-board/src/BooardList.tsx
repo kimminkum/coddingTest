@@ -1,8 +1,11 @@
-import { render } from "@testing-library/react";
 import { Component } from "react";
 import Table from "react-bootstrap/Table";
+import Button from "react-bootstrap/Button";
 
-class BoradList extends Component {
+class BoardList extends Component {
+  /**
+   * @return {Component} Component
+   */
   render() {
     return (
       <Table striped bordered hover>
@@ -16,15 +19,39 @@ class BoradList extends Component {
         </thead>
         <tbody>
           <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>
+              <input type="checkbox" />
+            </td>
+            <td>1</td>
+            <td>게시글1</td>
+            <td>artistJay</td>
+            <td>2022-03-19</td>
+          </tr>
+          <tr>
+            <td>
+              <input type="checkbox" />
+            </td>
+            <td>2</td>
+            <td>게시글2</td>
+            <td>artistJay</td>
+            <td>2022-03-19</td>
+          </tr>
+          <tr>
+            <td>
+              <input type="checkbox" />
+            </td>
+            <td>3</td>
+            <td>게시글2</td>
+            <td>artistJay</td>
+            <td>2022-03-19</td>
           </tr>
         </tbody>
+        <Button variant="info">글쓰기</Button>
+        <Button variant="secondary">수정하기</Button>
+        <Button variant="danger">삭제하기</Button>
       </Table>
     );
   }
 }
 
-export default BoradList;
+export default BoardList;
