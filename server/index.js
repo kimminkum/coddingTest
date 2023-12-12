@@ -3,6 +3,7 @@ const app = express();
 const mysql = require("mysql");
 const PORT = process.env.port || 8000;
 const cors = require("cors");
+const bodyParser = require("body-parser");
 
 let corsOptions = {
   origin: "*", // 출처 허용 옵션
@@ -10,6 +11,8 @@ let corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const db = mysql.createPool({
   host: "localhost",
@@ -31,6 +34,32 @@ app.get("/list", (req, res) => {
   const sqlQuery =
     "SELECT BOARD_ID, BOARD_TITLE, REGISTER_ID, REGISTER_DATETIME FROM BOARD;";
   db.query(sqlQuery, (err, result) => {
+    if (err) {
+      throw err;
+    }
+    res.send(result);
+  });
+});
+
+app.post("/insert", (req, res) => {
+  let title = req.body.title;
+  let content = req.body.content;
+
+  const sqlQuery = `INSERT INTO BOARD (BOARD_TITLE, BOARD_CONTENT, REGISTER_ID) VALUES (?, ?, 'happyDay');`;
+  db.query(sqlQuery, [title, content], (err, result) => {
+    if (err) {
+      throw err;
+    }
+    res.send(result);
+  });
+});
+
+app.post("/update", (req, res) => {
+  let title = req.body.title;
+  let content = req.body.content;
+
+  const sqlQuery = `UPDATE BOARD SET BOARD_TITLE=?, BOARD_CONTENT=? WHERE UPDATER_ID = 'happyDay';`;
+  db.query(sqlQuery, [title, content], (err, result) => {
     if (err) {
       throw err;
     }
