@@ -19,12 +19,22 @@ const db = mysql.createPool({
 });
 
 app.get("/", (req, res) => {
-  const sqlQuery = `INSERT INTO requested (rowno) VALUES (1)`;
+  const sqlQuery = `SELECT * FROM BOARD;`;
   db.query(sqlQuery, (err, result) => {
     if (err) {
       throw err;
     }
-    res.send("success!");
+    res.send(result);
+  });
+});
+app.get("/list", (req, res) => {
+  const sqlQuery =
+    "SELECT BOARD_ID, BOARD_TITLE, REGISTER_ID, REGISTER_DATETIME FROM BOARD;";
+  db.query(sqlQuery, (err, result) => {
+    if (err) {
+      throw err;
+    }
+    res.send(result);
   });
 });
 
