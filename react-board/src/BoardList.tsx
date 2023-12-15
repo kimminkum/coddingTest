@@ -115,6 +115,28 @@ class BoardList extends Component<IProps> {
    * @returns {Component} Component
    */
 
+  handleDelete = () => {
+    if (this.state.checkList.length === 0) {
+      alert("삭제할 게시글을 선택하여 주세요.");
+      return;
+    }
+    let boardIdList = "";
+
+    this.state.checkList.forEach((v: any) => {
+      boardIdList += `${v},`;
+    });
+
+    Axios.post("http://localhost:8000/delete", {
+      boardIdList: boardIdList.substring(0, boardIdList.length - 1)
+    })
+      .then(() => {
+        this.getList();
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
   render() {
     const { boardList }: { boardList: any } = this.state;
 
@@ -137,7 +159,7 @@ class BoardList extends Component<IProps> {
                   id={v.BOARD_ID}
                   title={v.BOARD_TITLE}
                   registerId={v.REGISTER_ID}
-                  registerDate={v.REGISTER_DATE}
+                  registerDate={v.REGISTER_DATETIME}
                   key={v.BOARD_ID}
                   props={this}
                 />
@@ -154,7 +176,9 @@ class BoardList extends Component<IProps> {
         >
           수정하기
         </Button>
-        <Button variant="danger">삭제하기</Button>
+        <Button variant="danger" onClick={this.handleDelete}>
+          삭제하기
+        </Button>
       </div>
     );
   }

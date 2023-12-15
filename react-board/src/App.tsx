@@ -26,10 +26,7 @@ class App extends Component {
     }
 
     this.setState({
-      isModifyMode: checkList.length === 1
-    });
-
-    this.setState({
+      isModifyMode: checkList.length === 1,
       boardId: checkList[0] || 0
     });
   };

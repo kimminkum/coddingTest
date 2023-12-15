@@ -57,9 +57,35 @@ app.post("/insert", (req, res) => {
 app.post("/update", (req, res) => {
   let title = req.body.title;
   let content = req.body.content;
+  let id = req.body.id;
 
-  const sqlQuery = `UPDATE BOARD SET BOARD_TITLE=?, BOARD_CONTENT=? WHERE UPDATER_ID = 'happyDay';`;
+  const sqlQuery = `UPDATE BOARD SET BOARD_TITLE=?, BOARD_CONTENT=? WHERE BOARD_ID = ${id};`;
   db.query(sqlQuery, [title, content], (err, result) => {
+    if (err) {
+      throw err;
+    }
+    res.send(result);
+  });
+});
+
+app.post("/delete", (req, res) => {
+  const id = req.body.boardIdList;
+
+  const sqlQuery = `DELETE FROM BOARD WHERE BOARD_ID IN (${id});`;
+  db.query(sqlQuery, (err, result) => {
+    if (err) {
+      throw err;
+    }
+    res.send(result);
+  });
+});
+
+app.post("/detail", (req, res) => {
+  const id = req.body.id;
+  console.log(id + `hi`);
+  const sqlQuery = `SELECT BOARD_ID, BOARD_TITLE, BOARD_CONTENT FROM BOARD WHERE BOARD_ID=${id}`;
+
+  db.query(sqlQuery, (err, result) => {
     if (err) {
       throw err;
     }
