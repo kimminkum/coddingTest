@@ -3,6 +3,7 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import BoardList from "./BoardList";
 import Write from "./Write";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 /**
  * App class
@@ -51,16 +52,30 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <BoardList
-          isComplete={this.state.isComplete}
-          handleModify={this.handleModify}
-          renderComplete={this.renderComplete}
-        ></BoardList>
-        <Write
-          isModifyMode={this.state.isModifyMode}
-          boardId={this.state.boardId}
-          handleCancel={this.handleCancel}
-        ></Write>
+        <BrowserRouter>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <BoardList
+                  isComplete={this.state.isComplete}
+                  handleModify={this.handleModify}
+                  renderComplete={this.renderComplete}
+                ></BoardList>
+              }
+            ></Route>
+            <Route
+              path="/write"
+              element={
+                <Write
+                  isModifyMode={this.state.isModifyMode}
+                  boardId={this.state.boardId}
+                  handleCancel={this.handleCancel}
+                ></Write>
+              }
+            ></Route>
+          </Routes>
+        </BrowserRouter>
       </div>
     );
   }

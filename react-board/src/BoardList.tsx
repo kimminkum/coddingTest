@@ -2,6 +2,7 @@ import { Component } from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import Axios from "axios";
+import { Link } from "react-router-dom";
 
 // 게시판 데이터를 받아올 것을 정리
 // map으로도 표현가능해진다.
@@ -167,7 +168,10 @@ class BoardList extends Component<IProps> {
             })}
           </tbody>
         </Table>
-        <Button variant="info">글쓰기</Button>
+        <Link to="/write">
+          <Button variant="info">글쓰기</Button>
+        </Link>
+
         <Button
           variant="secondary"
           onClick={() => {
