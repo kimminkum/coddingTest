@@ -82,7 +82,7 @@ app.post("/delete", (req, res) => {
 
 app.post("/detail", (req, res) => {
   const id = req.body.id;
-  const sqlQuery = `SELECT BOARD_ID, BOARD_TITLE, BOARD_CONTENT FROM BOARD WHERE BOARD_ID=${id}`;
+  const sqlQuery = `SELECT BOARD_TITLE, BOARD_CONTENT FROM BOARD WHERE BOARD_ID=${id}`;
 
   db.query(sqlQuery, (err, result) => {
     if (err) {

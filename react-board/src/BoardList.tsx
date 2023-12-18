@@ -37,6 +37,11 @@ const Board = ({
       <td>{title}</td>
       <td>{registerId}</td>
       <td>{registerDate}</td>
+      <td>
+        <Link to="/detail">
+          <button>자세히 보기</button>
+        </Link>
+      </td>
     </tr>
   );
 };
@@ -151,6 +156,7 @@ class BoardList extends Component<IProps> {
               <th>제목</th>
               <th>작성자</th>
               <th>작성일</th>
+              <th>자세히 보기</th>
             </tr>
           </thead>
           <tbody>

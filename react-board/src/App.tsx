@@ -3,6 +3,7 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import BoardList from "./BoardList";
 import Write from "./Write";
+import Detail from "./Detail";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 /**
@@ -73,6 +74,10 @@ class App extends Component {
                   handleCancel={this.handleCancel}
                 ></Write>
               }
+            ></Route>
+            <Route
+              path="/detail"
+              element={<Detail boardId={this.state.boardId}></Detail>}
             ></Route>
           </Routes>
         </BrowserRouter>
