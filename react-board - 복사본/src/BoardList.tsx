@@ -1,19 +1,22 @@
 import { Component } from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
+import Button from "react-bootstrap/Button";
 import Axios from "axios";
 import { Link } from "react-router-dom";
 
+// 게시판 데이터를 받아올 것을 정리
+// map으로도 표현가능해진다.
 const Board = ({
   id,
   title,
-  content,
+  registerId,
+  registerDate,
   props
 }: {
   id: number;
   title: string;
-  content: string;
+  registerId: string;
+  registerDate: string;
   props: any;
 }) => {
   return (
@@ -32,33 +35,92 @@ const Board = ({
       </td>
       <td>{id}</td>
       <td>{title}</td>
-      <td>{content}</td>
+      <td>{registerId}</td>
+      <td>{registerDate}</td>
+      <td>
+        <Link to="/detail">
+          <button>자세히 보기</button>
+        </Link>
+      </td>
     </tr>
   );
 };
 
+// 부모와 통신하는 방식
 interface IProps {
-  boardId: number;
+  isComplete: boolean;
+  handleModify: any;
+  renderComplete: any;
 }
+
 /**
- * Write class
+ * BoardList class
  * @param {SS} e
  */
 
-class Detail extends Component<IProps> {
+// 메인
+class BoardList extends Component<IProps> {
   /**
-   * @param {SS} e
+   * @param {SS} props
    */
+
   constructor(props: any) {
     super(props);
     this.state = {
-      boardList: []
+      boardList: [],
+      checkList: []
     };
   }
+
   state = {
-    boardList: []
+    boardList: [],
+    checkList: []
   };
-  /*
+
+  getList = () => {
+    Axios.get("http://localhost:8000/list", {})
+      .then((res) => {
+        const { data } = res;
+        this.setState({ boardList: data });
+        this.props.renderComplete();
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+  componentDidMount() {
+    this.getList();
+  }
+
+  /**
+   * @param {Component} Component
+   * @param {any} id
+   */
+
+  onCheckboxChange = (checked: boolean, id: any) => {
+    const list: Array<string> = this.state.checkList.filter((v) => {
+      return v != id;
+    });
+
+    if (checked) {
+      list.push(id);
+    }
+
+    this.setState({
+      checkList: list
+    });
+  };
+
+  /** */
+  componentDidUpdate() {
+    if (this.props.isComplete) {
+      this.getList();
+    }
+  }
+  /**
+   * @returns {Component} Component
+   */
+
   handleDelete = () => {
     if (this.state.checkList.length === 0) {
       alert("삭제할 게시글을 선택하여 주세요.");
@@ -80,23 +142,7 @@ class Detail extends Component<IProps> {
         console.error(e);
       });
   };
-*/
-  detail = () => {
-    Axios.post(`http://localhost:8000/detail?id=${this.props.boardId}`)
-      .then((res) => {
-        this.setState({
-          title: res.data[0].BOARD_TITLE,
-          content: res.data[0].BOARD_CONTENT
-        });
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
 
-  /**
-   * @return { Component} Component
-   **/
   render() {
     const { boardList }: { boardList: any } = this.state;
 
@@ -119,7 +165,8 @@ class Detail extends Component<IProps> {
                 <Board
                   id={v.BOARD_ID}
                   title={v.BOARD_TITLE}
-                  content={v.BOARD_CONTENT}
+                  registerId={v.REGISTER_ID}
+                  registerDate={v.REGISTER_DATETIME}
                   key={v.BOARD_ID}
                   props={this}
                 />
@@ -127,12 +174,24 @@ class Detail extends Component<IProps> {
             })}
           </tbody>
         </Table>
-        <Link to="/">
-          <Button variant="secondary">돌아가기</Button>
+        <Link to="/write">
+          <Button variant="info">글쓰기</Button>
         </Link>
+
+        <Button
+          variant="secondary"
+          onClick={() => {
+            this.props.handleModify(this.state.checkList);
+          }}
+        >
+          수정하기
+        </Button>
+        <Button variant="danger" onClick={this.handleDelete}>
+          삭제하기
+        </Button>
       </div>
     );
   }
 }
 
-export default Detail;
+export default BoardList;

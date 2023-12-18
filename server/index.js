@@ -30,6 +30,7 @@ app.get("/", (req, res) => {
     res.send(result);
   });
 });
+
 app.get("/list", (req, res) => {
   const sqlQuery =
     "SELECT BOARD_ID, BOARD_TITLE, REGISTER_ID, REGISTER_DATETIME FROM BOARD;";
@@ -81,7 +82,8 @@ app.post("/delete", (req, res) => {
 });
 
 app.post("/detail", (req, res) => {
-  const id = req.body.id;
+  const id = req.body.boardIdList;
+  console.log("start");
   const sqlQuery = `SELECT BOARD_TITLE, BOARD_CONTENT FROM BOARD WHERE BOARD_ID=${id}`;
 
   db.query(sqlQuery, (err, result) => {
