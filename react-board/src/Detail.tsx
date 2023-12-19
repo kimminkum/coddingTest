@@ -15,7 +15,7 @@ interface RouteParams {
 
 const Detail: React.FC = () => {
   const { id } = useParams();
-  const parsedId = id ? parseInt(id, 10) : undefined;
+  const parsedId = id ? parseInt(id) : undefined;
   const [board, setBoard] = useState<Board | null>(null); // 초기값은 null로 설정
 
   useEffect(() => {
