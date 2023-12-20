@@ -19,7 +19,6 @@ const App: React.FC = () => {
           <Route path="/" element={<BoardList />} />
         </Routes>
       </BrowserRouter>
-      ;
     </div>
   );
 };

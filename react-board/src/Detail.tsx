@@ -1,7 +1,7 @@
 // Detail.tsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 interface Board {
   BOARD_TITLE: string;
@@ -38,8 +38,15 @@ const Detail: React.FC = () => {
   return (
     <div>
       <h1>글 상세 내용</h1>
-      <p>Title: {board.BOARD_TITLE}</p>
-      <p>Content: {board.BOARD_CONTENT}</p>
+      <div>
+        <p>Title: {board.BOARD_TITLE}</p>
+        <p>Content: {board.BOARD_CONTENT}</p>
+      </div>
+      <div>
+        <Link to="/">
+          <button>돌아가기</button>
+        </Link>
+      </div>
     </div>
   );
 };

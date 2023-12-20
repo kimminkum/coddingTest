@@ -1,7 +1,7 @@
 // Write.tsx
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Write: React.FC = () => {
   const [title, setTitle] = useState("");
@@ -9,6 +9,11 @@ const Write: React.FC = () => {
   const navigate = useNavigate();
 
   const handleSave = () => {
+    if (!title.trim() || !content.trim()) {
+      alert("전부 입력해 주세요.");
+      return;
+    }
+
     axios
       .post("http://localhost:8000/insert", { title, content })
       .then((response) => {
@@ -37,9 +42,14 @@ const Write: React.FC = () => {
           onChange={(e) => setContent(e.target.value)}
         />
         <br />
-        <button type="button" onClick={handleSave}>
-          Save
-        </button>
+        <div className="flex">
+          <button type="button" onClick={handleSave}>
+            Save
+          </button>
+          <Link to="/">
+            <button>돌아가기</button>
+          </Link>
+        </div>
       </form>
     </div>
   );
