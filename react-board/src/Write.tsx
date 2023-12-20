@@ -13,7 +13,7 @@ const Write: React.FC = () => {
       .post("http://localhost:8000/insert", { title, content })
       .then((response) => {
         console.log("Post created successfully:", response.data);
-        navigate("/board"); // useNavigate를 사용하여 경로 변경
+        navigate("/"); // useNavigate를 사용하여 경로 변경
       })
       .catch((error) => {
         console.error("Error creating post:", error);
