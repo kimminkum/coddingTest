@@ -1,12 +1,29 @@
 // Write.tsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useParams } from "react-router-dom";
 
 const Write: React.FC = () => {
+  const { id } = useParams();
+  const parsedId = id ? parseInt(id) : undefined;
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (parsedId !== undefined) {
+      axios
+        .get(`http://localhost:8000/detail/${parsedId}`)
+        .then((res) => {
+          const boardDate = res.data[0];
+          setTitle(boardDate.BOARD_TITLE);
+          setContent(boardDate.BOARD_CONTENT);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  }, [parsedId]);
 
   const handleSave = () => {
     if (!title.trim() || !content.trim()) {
@@ -14,20 +31,32 @@ const Write: React.FC = () => {
       return;
     }
 
-    axios
-      .post("http://localhost:8000/insert", { title, content })
-      .then((response) => {
-        console.log("Post created successfully:", response.data);
-        navigate("/"); // useNavigate를 사용하여 경로 변경
-      })
-      .catch((error) => {
-        console.error("Error creating post:", error);
-      });
+    if (parsedId !== undefined) {
+      axios
+        .put(`http://localhost:8000/update/${parsedId}`, { title, content })
+        .then((response) => {
+          console.log(response);
+          navigate("/");
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    } else {
+      axios
+        .post("http://localhost:8000/insert", { title, content })
+        .then((response) => {
+          console.log("Post created successfully:", response.data);
+          navigate("/"); // useNavigate를 사용하여 경로 변경
+        })
+        .catch((error) => {
+          console.error("Error creating post:", error);
+        });
+    }
   };
 
   return (
     <div>
-      <h1>글 작성</h1>
+      <h1>{parsedId !== undefined ? "글 수정" : "글 작성"}</h1>
       <form>
         <label>Title: </label>
         <input

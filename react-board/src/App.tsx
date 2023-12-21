@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import BoardList from "BoradList";
@@ -14,8 +14,8 @@ const App: React.FC = () => {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="write" element={<Write />} />
-          <Route path="detail/:id" element={<Detail />} />
+          <Route path="/write/:id" element={<Write />} />
+          <Route path="/detail/:id" element={<Detail />} />
           <Route path="/" element={<BoardList />} />
         </Routes>
       </BrowserRouter>

@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const app = express();
 const mysql = require("mysql");
 const PORT = process.env.port || 8000;
@@ -55,13 +56,14 @@ app.post("/insert", (req, res) => {
   });
 });
 
-app.post("/update", (req, res) => {
+app.put("/update/:id", (req, res) => {
+  console.log("start");
   let title = req.body.title;
   let content = req.body.content;
-  let id = req.body.id;
+  let id = req.params.id;
 
-  const sqlQuery = `UPDATE BOARD SET BOARD_TITLE=?, BOARD_CONTENT=? WHERE BOARD_ID = ${id};`;
-  db.query(sqlQuery, [title, content], (err, result) => {
+  const sqlQuery = `UPDATE BOARD SET BOARD_TITLE=?, BOARD_CONTENT=? WHERE BOARD_ID = ?;`;
+  db.query(sqlQuery, [title, content, id], (err, result) => {
     if (err) {
       throw err;
     }
@@ -69,21 +71,25 @@ app.post("/update", (req, res) => {
   });
 });
 
-app.post("/delete", (req, res) => {
-  const id = req.body.boardIdList;
-
-  const sqlQuery = `DELETE FROM BOARD WHERE BOARD_ID IN (${id});`;
+app.delete("/delete/:id", (req, res) => {
+  const id = req.params.id;
+  const sqlQuery = `DELETE FROM BOARD WHERE BOARD_ID = ${id};`;
   db.query(sqlQuery, (err, result) => {
     if (err) {
-      throw err;
+      console.error("Error deleting post:", err);
+      console.log("none server");
+      res.status(500).json({ error: "Internal Server Error" });
+      return;
     }
-    res.send(result);
+
+    console.log("Post deleted successfully");
+    console.log("none end");
+    res.json({ message: "Post deleted successfully" });
   });
 });
 
 app.post("/detail", (req, res) => {
   const id = req.body.boardIdList;
-  console.log("start");
   const sqlQuery = `SELECT BOARD_TITLE, BOARD_CONTENT FROM BOARD WHERE BOARD_ID=${id}`;
 
   db.query(sqlQuery, (err, result) => {

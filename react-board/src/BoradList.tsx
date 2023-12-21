@@ -30,8 +30,13 @@ const BoardList: React.FC = () => {
       <ul>
         {boardList.map((board) => (
           <li key={board.BOARD_ID}>
-            <Link to={`/detail/${board.BOARD_ID}`}>{board.BOARD_TITLE}</Link>
+            <div>{board.BOARD_TITLE}</div>
             <div>{board.REGISTER_DATETIME}</div>
+            <div>
+              <Link to={`detail/${board.BOARD_ID}`}>
+                <button>자세히 보기</button>
+              </Link>
+            </div>
           </li>
         ))}
       </ul>
