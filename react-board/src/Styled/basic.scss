@@ -1,0 +1,126 @@
+:root {
+  --size-normal: 16px;
+  --size-small: 12px;
+  --size-big: 24px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: 1px solid red;
+}
+
+body {
+  //   font-family: "Noto Sans KR", sans-serif;
+  font-size: 0.9rem;
+  line-height: 1rem;
+  word-wrap: break-word;
+  word-break: keep-all;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  color: inherit;
+  //   font-family: "Rubik", sans-serif;
+}
+
+a,
+a:visited {
+  position: relative;
+  color: inherit;
+  text-decoration: none;
+  transition: 0.4s;
+}
+
+a::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0%;
+  width: 0%;
+  height: 100%;
+  transition: 0.4s;
+}
+
+a:hover::after {
+  width: 100%;
+}
+
+li,
+ul {
+  list-style: none;
+}
+
+button {
+  position: relative;
+  color: inherit;
+  transition: 0.4s;
+  background: linear-gradient(#fff 0 0) left / var(--p, 0%) no-repeat;
+  cursor: pointer;
+  border: 1px solid #111;
+}
+
+button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  transition: 0.4s;
+}
+
+button:hover {
+  --p: 0%;
+}
+
+button:hover::after {
+  width: 100%;
+}
+
+/* pc mobile */
+
+div[class^="pc"] {
+  display: none;
+}
+div[class^="mobile"] {
+  display: inline-block;
+}
+img[class^="pc"] {
+  display: none;
+}
+img[class^="mobile"] {
+  display: inline-block;
+}
+p[class^="pc"] {
+  display: none;
+}
+
+/* class */
+
+.flex_start {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.flex {
+  display: flex;
+}
+.flex_sb {
+  display: flex;
+  justify-content: space-between;
+}
+.flex_end {
+  display: flex;
+  justify-content: flex-end;
+}
+.flex_center {
+  display: flex;
+  justify-content: center;
+}

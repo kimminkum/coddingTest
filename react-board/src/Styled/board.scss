@@ -1,0 +1,16 @@
+.boardlist {
+  width: 100%;
+  > div {
+    padding: 0 20px;
+  }
+}
+
+@media screen and (min-width: 1240px) {
+  .boardlist {
+    max-width: 1200px;
+    margin: 0 auto;
+    > div {
+      padding: 20px 0;
+    }
+  }
+}
