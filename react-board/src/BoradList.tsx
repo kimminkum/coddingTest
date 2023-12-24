@@ -31,35 +31,36 @@ const BoardList: React.FC = () => {
     <div className="boardlist">
       <div>
         <h1>게시판 목록</h1>
-        <Table>
+        <Table className="board_t">
           <thead>
             <tr>
               <th>제목</th>
               <th>날짜</th>
             </tr>
           </thead>
-        </Table>
-
-        <ul>
-          {boardList.map((board) => (
-            <li key={board.BOARD_ID}>
-              <Link className="flex_sb" to={`detail/${board.BOARD_ID}`}>
-                <div className="board_t">{board.BOARD_TITLE}</div>
-
-                <div className="board_d">
+          <tbody>
+            {boardList.map((board) => (
+              <tr key={board.BOARD_ID}>
+                <Link className="flex_sb" to={`detail/${board.BOARD_ID}`}>
+                  <td className="board_t">{board.BOARD_TITLE}</td>
+                </Link>
+                <td className="board_d">
                   {new Intl.DateTimeFormat("ko-KR", {
                     year: "numeric",
                     month: "2-digit",
                     day: "2-digit"
                   }).format(new Date(board.REGISTER_DATETIME))}
-                </div>
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <Link className="flex_end" to="/write">
-          <button>글작성</button>
-        </Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+
+        <div className="flex_end">
+          <Link to="/write">
+            <button className="white">글작성</button>
+          </Link>
+        </div>
       </div>
     </div>
   );

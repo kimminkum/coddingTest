@@ -5,6 +5,49 @@
   }
 }
 
+.board_t {
+  thead {
+    tr {
+      > :nth-child(2) {
+        width: 150px;
+      }
+    }
+  }
+  tbody {
+    tr {
+      > :first-child {
+        font-size: var(--size-big);
+      }
+    }
+  }
+}
+
+button.white_btn {
+  padding: 8px 12px;
+  background: linear-gradient(rgb(255, 163, 163) 0 0) left / var(--p, 0%)
+    no-repeat;
+  transition: 0.4s;
+  color: red;
+}
+
+button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  transition: 0.4s;
+}
+
+button:hover {
+  --p: 100%;
+}
+
+button:hover::after {
+  width: 100%;
+}
+
 @media screen and (min-width: 1240px) {
   .boardlist {
     max-width: 1200px;
