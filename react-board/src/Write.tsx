@@ -22,6 +22,9 @@ const Write: React.FC = () => {
         .catch((err) => {
           console.error(err);
         });
+    } else {
+      setTitle("");
+      setContent("");
     }
   }, [parsedId]);
 
