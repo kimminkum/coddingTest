@@ -12,14 +12,18 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 const App: React.FC = () => {
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/write" element={<Write />} />
-          <Route path="/write/:id" element={<Write />} />
-          <Route path="/detail/:id" element={<Detail />} />
-          <Route path="/" element={<BoardList />} />
-        </Routes>
-      </BrowserRouter>
+      <div className="bg"></div>
+
+      <div className="base">
+        <BrowserRouter>
+          <Routes>
+            <Route path="/write" element={<Write />} />
+            <Route path="/write/:id" element={<Write />} />
+            <Route path="/detail/:id" element={<Detail />} />
+            <Route path="/" element={<BoardList />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
     </div>
   );
 };

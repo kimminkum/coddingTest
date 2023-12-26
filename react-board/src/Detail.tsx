@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, Link, useNavigate } from "react-router-dom";
+import "./Styled/basic.scss";
+import "./Styled/board.scss";
 
 interface Board {
   BOARD_TITLE: string;
@@ -60,12 +62,13 @@ const Detail: React.FC = () => {
 
   return (
     <div>
-      <h1>글 상세 내용</h1>
-      <div>
-        <p>Title: {board.BOARD_TITLE}</p>
-        <p>Content: {board.BOARD_CONTENT}</p>
+      <h2>글 상세 내용</h2>
+      <div className="detail_box">
+        <div className="title_p">{board.BOARD_TITLE}</div>
+        <div className="content_p">{board.BOARD_CONTENT}</div>
       </div>
-      <div>
+
+      <div className="flex_end">
         <button onClick={handleUpdate}>수정하기</button>
         <Link to="/">
           <button>돌아가기</button>

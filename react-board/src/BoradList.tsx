@@ -30,8 +30,8 @@ const BoardList: React.FC = () => {
   return (
     <div className="boardlist">
       <div>
-        <h1>게시판 목록</h1>
-        <Table className="board_t">
+        <h2>게시판 목록</h2>
+        <Table striped bordered hover className="board_t">
           <thead>
             <tr>
               <th>제목</th>
@@ -58,7 +58,7 @@ const BoardList: React.FC = () => {
 
         <div className="flex_end">
           <Link to="/write">
-            <button className="white">글작성</button>
+            <button className="white_btn">글작성</button>
           </Link>
         </div>
       </div>

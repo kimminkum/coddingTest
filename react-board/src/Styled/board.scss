@@ -2,12 +2,20 @@
   width: 100%;
   > div {
     padding: 0 20px;
+    > h2 {
+      margin-bottom: 60px;
+    }
   }
 }
 
 .board_t {
   thead {
     tr {
+      > {
+        th {
+          border: 1px solid black;
+        }
+      }
       > :nth-child(2) {
         width: 150px;
       }
@@ -15,6 +23,29 @@
   }
   tbody {
     tr {
+      .flex_sb {
+        td {
+          width: 100%;
+          text-align: left;
+          height: 24px;
+          border: none;
+          position: relative;
+        }
+        td::after {
+          content: "";
+          width: 101%;
+          height: 40px;
+          position: absolute;
+          border-left: 1px solid rgb(146, 136, 136);
+          border-bottom: 1px solid rgb(146, 136, 136);
+          left: -8px;
+          top: -7px;
+          border-collapse: collapse;
+        }
+      }
+      td {
+        border: 1px solid rgb(146, 136, 136);
+      }
       > :first-child {
         font-size: var(--size-big);
       }
@@ -24,7 +55,7 @@
 
 button.white_btn {
   padding: 8px 12px;
-  background: linear-gradient(rgb(255, 163, 163) 0 0) left / var(--p, 0%)
+  background: linear-gradient(rgb(179, 79, 79) 0 0) left / var(--p, 0%)
     no-repeat;
   transition: 0.4s;
   color: red;
@@ -42,10 +73,27 @@ button::after {
 
 button:hover {
   --p: 100%;
+  color: white;
 }
 
 button:hover::after {
   width: 100%;
+}
+
+.detail_box {
+  padding: 0 20px;
+}
+
+.title_p {
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
+  text-align: left;
+}
+
+.content_p {
+  padding: 20px 0;
+  border-bottom: 1px solid #aaa;
+  text-align: left;
 }
 
 @media screen and (min-width: 1240px) {

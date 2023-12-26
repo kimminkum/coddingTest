@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, Link, useParams } from "react-router-dom";
+import "./Styled/basic.scss";
+import "./Styled/board.scss";
 
 const Write: React.FC = () => {
   const { id } = useParams();
