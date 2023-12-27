@@ -58,7 +58,7 @@ const BoardList: React.FC = () => {
 
         <div className="flex_end">
           <Link to="/write">
-            <button className="white_btn">글작성</button>
+            <button className="">글작성</button>
           </Link>
         </div>
       </div>

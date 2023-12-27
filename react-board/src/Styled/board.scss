@@ -53,30 +53,19 @@
   }
 }
 
-button.white_btn {
-  padding: 8px 12px;
+.red_btn {
   background: linear-gradient(rgb(179, 79, 79) 0 0) left / var(--p, 0%)
     no-repeat;
   transition: 0.4s;
   color: red;
 }
 
-button::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 100%;
-  transition: 0.4s;
-}
-
-button:hover {
+.red_btn:hover {
   --p: 100%;
   color: white;
 }
 
-button:hover::after {
+.red_btn:hover::after {
   width: 100%;
 }
 
@@ -88,12 +77,20 @@ button:hover::after {
   border-top: 1px solid #aaa;
   border-bottom: 1px solid #aaa;
   text-align: left;
+  width: 80%;
+  padding: 12px 20px;
 }
 
 .content_p {
-  padding: 20px 0;
+  width: 80%;
+  padding: 20px;
   border-bottom: 1px solid #aaa;
   text-align: left;
+  margin-bottom: 40px;
+}
+
+.detail > :nth-child(3) > * {
+  margin-left: 16px;
 }
 
 @media screen and (min-width: 1240px) {

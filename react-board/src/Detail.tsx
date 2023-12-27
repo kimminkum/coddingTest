@@ -61,10 +61,10 @@ const Detail: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="detail">
       <h2>글 상세 내용</h2>
       <div className="detail_box">
-        <div className="title_p">{board.BOARD_TITLE}</div>
+        <div className="title_p">제목 : {board.BOARD_TITLE}</div>
         <div className="content_p">{board.BOARD_CONTENT}</div>
       </div>
 
@@ -73,7 +73,9 @@ const Detail: React.FC = () => {
         <Link to="/">
           <button>돌아가기</button>
         </Link>
-        <button onClick={handleDelete}>삭제하기</button>
+        <button className="red_btn" onClick={handleDelete}>
+          삭제하기
+        </button>
       </div>
     </div>
   );

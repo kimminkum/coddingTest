@@ -63,14 +63,14 @@ const Write: React.FC = () => {
     <div>
       <h1>{parsedId !== undefined ? "글 수정" : "글 작성"}</h1>
       <form>
-        <label>Title: </label>
+        <label>Title : </label>
         <input
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
         <br />
-        <label>Content: </label>
+        <label>Content : </label>
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
