@@ -100,6 +100,20 @@ app.post("/detail", (req, res) => {
   });
 });
 
+app.post("/redet", (req, res) => {
+  const id = req.body.id;
+  const redet = req.body.redet;
+
+  const sqlQuery = `INSERT INTO redet (redet_content, BOARD_ID) VALUES (?, ?);`;
+
+  db.query(sqlQuery, [redet, id], (err, result) => {
+    if (err) {
+      throw err;
+    }
+    res.send(result);
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`running on port ${PORT}`);
 });
