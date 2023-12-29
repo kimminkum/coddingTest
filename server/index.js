@@ -100,6 +100,7 @@ app.post("/detail", (req, res) => {
   });
 });
 
+// cr clear
 app.post("/redet", (req, res) => {
   const id = req.body.id;
   const redet = req.body.redet;
