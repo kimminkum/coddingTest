@@ -114,6 +114,18 @@ app.post("/redet", (req, res) => {
   });
 });
 
+app.post("/comment", (req, res) => {
+  const id = req.body.boardIdList;
+  const sqlQuery = `SELECT redet_content FROM redet WHERE BOARD_ID=${id};`;
+
+  db.query(sqlQuery, (err, result) => {
+    if (err) {
+      throw err;
+    }
+    res.send(result);
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`running on port ${PORT}`);
 });

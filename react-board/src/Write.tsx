@@ -10,7 +10,6 @@ const Write: React.FC = () => {
   const parsedId = id ? parseInt(id) : undefined;
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [redet, setRedet] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -60,21 +59,6 @@ const Write: React.FC = () => {
     }
   };
 
-  const onRedet = () => {
-    if (!redet.trim()) {
-      return;
-    }
-
-    axios
-      .post("http://localhost:8000/redet", { redet, id })
-      .then((res) => {
-        console.log("rok", res.data);
-      })
-      .catch((err) => {
-        console.error("ERROR :", err);
-      });
-  };
-
   return (
     <div>
       <h1>{parsedId !== undefined ? "글 수정" : "글 작성"}</h1>
@@ -92,17 +76,6 @@ const Write: React.FC = () => {
           onChange={(e) => setContent(e.target.value)}
         />
         <br />
-
-        <div>
-          <input
-            type="text"
-            value={redet}
-            onChange={(e) => setRedet(e.target.value)}
-          />
-          <button type="button" onClick={onRedet}>
-            댓글
-          </button>
-        </div>
 
         <div className="flex">
           <button type="button" onClick={handleSave}>
