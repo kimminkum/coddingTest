@@ -11,6 +11,11 @@ interface Board {
   // 다른 필요한 속성들 추가
 }
 
+interface CommentItem {
+  redet_id: number;
+  redet_content: string;
+}
+
 interface RouteParams {
   id: string;
 }
@@ -20,7 +25,7 @@ const Detail: React.FC = () => {
   const parsedId = id ? parseInt(id) : undefined;
   const [board, setBoard] = useState<Board | null>(null); // 초기값은 null로 설정
   const navigate = useNavigate();
-  const [comment, setComment] = useState<string[]>([]);
+  const [comment, setComment] = useState<CommentItem[]>([]);
   const [redet, setRedet] = useState("");
 
   useEffect(() => {
@@ -37,7 +42,8 @@ const Detail: React.FC = () => {
       axios
         .post(`http://localhost:8000/comment`, { boardIdList: parsedId })
         .then((res) => {
-          setComment(res.data.map((item: any) => item.redet_content));
+          // res.data는 [{ redet_id: 1, redet_content: '댓글 내용' }, ...]와 같은 형태의 배열
+          setComment(res.data);
         })
         .catch((err) => {
           console.error(err);
@@ -71,6 +77,27 @@ const Detail: React.FC = () => {
     navigate(`/write/${parsedId}`);
   };
 
+  const handleDeleteComment = (redetId: number) => {
+    axios
+      .delete(`http://localhost:8000/redet/${redetId}`)
+      .then((res) => {
+        console.log("댓글 삭제 성공:", res.data);
+
+        // 삭제 후 댓글 목록을 다시 불러와 화면을 갱신
+        axios
+          .post(`http://localhost:8000/comment`, { boardIdList: parsedId })
+          .then((res) => {
+            setComment(res.data);
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      })
+      .catch((err) => {
+        console.error("댓글 삭제 에러:", err);
+      });
+  };
+
   const onRedet = () => {
     if (!redet.trim()) {
       return;
@@ -96,7 +123,16 @@ const Detail: React.FC = () => {
         <div className="comment_p">
           {/* 배열 형태의 comment를 매핑하여 표시 */}
           {comment.map((commentItem, index) => (
-            <div key={index}>{commentItem}</div>
+            <div key={index} className="flex_end">
+              <div>{commentItem.redet_content}</div>
+
+              <button
+                type="button"
+                onClick={() => handleDeleteComment(commentItem.redet_id)}
+              >
+                댓글 삭제
+              </button>
+            </div>
           ))}
         </div>
       </div>

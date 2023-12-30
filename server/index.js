@@ -117,13 +117,29 @@ app.post("/redet", (req, res) => {
 
 app.post("/comment", (req, res) => {
   const id = req.body.boardIdList;
-  const sqlQuery = `SELECT redet_content FROM redet WHERE BOARD_ID=${id};`;
+  const sqlQuery = `SELECT redet_id, redet_content FROM redet WHERE BOARD_ID=${id};`;
 
   db.query(sqlQuery, (err, result) => {
     if (err) {
       throw err;
     }
     res.send(result);
+  });
+});
+
+app.delete("/redet/:id", (req, res) => {
+  const redetId = req.params.id;
+  const sqlQuery = `DELETE FROM redet WHERE redet_id = ?;`;
+
+  db.query(sqlQuery, [redetId], (err, result) => {
+    if (err) {
+      console.error("Error deleting comment:", err);
+      res.status(500).json({ error: "Internal Server Error" });
+      return;
+    }
+
+    console.log("Comment deleted successfully");
+    res.json({ message: "Comment deleted successfully" });
   });
 });
 
