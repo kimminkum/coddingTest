@@ -33,9 +33,11 @@ app.get("/", (req, res) => {
 });
 
 app.get("/list", (req, res) => {
-  const sqlQuery =
-    "SELECT BOARD_ID, BOARD_TITLE, REGISTER_ID, REGISTER_DATETIME FROM BOARD;";
-  db.query(sqlQuery, (err, result) => {
+  const page = parseInt(req.query.page) || 1;
+  const pageSize = parseInt(req.query.pageSize) || 10;
+  const offset = (page - 1) * pageSize;
+  const sqlQuery = `SELECT BOARD_ID, BOARD_TITLE, REGISTER_ID, REGISTER_DATETIME FROM BOARD LIMIT ?, ?;`;
+  db.query(sqlQuery, [offset, pageSize], (err, result) => {
     if (err) {
       throw err;
     }

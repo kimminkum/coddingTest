@@ -15,17 +15,18 @@ interface Board {
 
 const BoardList: React.FC = () => {
   const [boardList, setBoardList] = useState<Board[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/list")
+      .get(`http://localhost:8000/list?page=${currentPage}`)
       .then((response) => {
         setBoardList(response.data);
       })
       .catch((error) => {
         console.error("Error fetching board list:", error);
       });
-  }, []);
+  }, [currentPage]);
 
   return (
     <div className="boardlist">
@@ -41,9 +42,11 @@ const BoardList: React.FC = () => {
           <tbody>
             {boardList.map((board) => (
               <tr key={board.BOARD_ID}>
-                <Link className="flex_sb" to={`detail/${board.BOARD_ID}`}>
-                  <td className="board_t">{board.BOARD_TITLE}</td>
-                </Link>
+                <td className="board_t">
+                  <Link className="flex_sb" to={`detail/${board.BOARD_ID}`}>
+                    {board.BOARD_TITLE}
+                  </Link>
+                </td>
                 <td className="board_d">
                   {new Intl.DateTimeFormat("ko-KR", {
                     year: "numeric",
@@ -60,6 +63,22 @@ const BoardList: React.FC = () => {
           <Link to="/write">
             <button className="">글작성</button>
           </Link>
+        </div>
+
+        <div className="pagination">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            이전
+          </button>
+          <span>현재 페이지: {currentPage}</span>
+          <button
+            onClick={() => setCurrentPage((prev) => prev + 1)}
+            // 이 부분에서 전체 페이지 수를 고려하여 비활성화 여부를 결정할 수 있음
+          >
+            다음
+          </button>
         </div>
       </div>
     </div>

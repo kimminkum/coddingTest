@@ -111,6 +111,8 @@ const Detail: React.FC = () => {
       .catch((err) => {
         console.error("ERROR :", err);
       });
+
+    setRedet("");
   };
 
   return (
