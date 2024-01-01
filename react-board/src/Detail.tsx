@@ -125,14 +125,15 @@ const Detail: React.FC = () => {
         <div className="comment_p">
           {/* 배열 형태의 comment를 매핑하여 표시 */}
           {comment.map((commentItem, index) => (
-            <div key={index} className="flex_end">
+            <div key={index} className="flex_start comment_box">
               <div>{commentItem.redet_content}</div>
 
               <button
                 type="button"
+                className="x_button"
                 onClick={() => handleDeleteComment(commentItem.redet_id)}
               >
-                댓글 삭제
+                ×
               </button>
             </div>
           ))}

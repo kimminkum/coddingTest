@@ -67,17 +67,19 @@ const BoardList: React.FC = () => {
 
         <div className="pagination">
           <button
+            className="prev_button"
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
           >
-            이전
+            ◀
           </button>
-          <span>현재 페이지: {currentPage}</span>
+          <span>{currentPage} 페이지</span>
           <button
+            className="next_button"
             onClick={() => setCurrentPage((prev) => prev + 1)}
             // 이 부분에서 전체 페이지 수를 고려하여 비활성화 여부를 결정할 수 있음
           >
-            다음
+            ▶
           </button>
         </div>
       </div>

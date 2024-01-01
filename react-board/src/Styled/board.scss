@@ -93,6 +93,28 @@
   margin-left: 16px;
 }
 
+.comment_box {
+  position: relative;
+  padding: 10px 10px;
+  > div {
+    width: 90%;
+    text-align: left;
+  }
+}
+
+.x_button {
+  padding: 1px 2px;
+  position: absolute;
+  top: 4px;
+  right: 4px;
+}
+
+.prev_button,
+.next_button {
+  border: none;
+  padding: 0;
+}
+
 @media screen and (min-width: 1240px) {
   .boardlist {
     max-width: 1200px;
