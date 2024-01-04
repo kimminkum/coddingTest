@@ -11,14 +11,27 @@
     <input id="name" type="text" />
     <button onclick="getSound()">API 요청</button>
     <script>
-      function getSound() {
-        const name = document.getElementById("name").value;
-        fetch(`http://localhost:3000/sound/${name}`)
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data.sound);
-            document.getElementById("sound").innerHTML = data.sound;
-          });
+      function solution(s) {
+        let word = [];
+        let answer = 0;
+
+        [...s].forEach((str, i) => {
+          word.push(str); //why
+
+          const same = word.filter((item) => item === word[0]);
+          const nSame = word.filter((item) => item !== word[0]);
+
+          if (same.length === nSame.length) {
+            answer += 1;
+            word = [];
+          }
+        });
+
+        if (word.length !== 0) {
+          answer += 1;
+        }
+
+        return answer;
       }
       //풀스택 강의 시작
       // mySQL부터
