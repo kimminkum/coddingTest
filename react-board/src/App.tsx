@@ -8,7 +8,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import axios from "axios";
 
 interface MapleCharacter {
-  character_name: string;
+  ocid: string;
 }
 
 const App: React.FC = () => {
@@ -48,10 +48,8 @@ const App: React.FC = () => {
         }
       );
 
-      console.log("Response Body:", response.data); // 콘솔에 응답 바디 로그 출력
-
       setMapleCharacter(response.data);
-      console.log("this", mapleCharacter);
+      console.log("hi" + mapleCharacter?.ocid);
     } catch (error) {
       console.error("Error fetching data:", error);
       setError("Error fetching data. Please check the character name.");
@@ -99,9 +97,7 @@ const App: React.FC = () => {
         {error && <div style={{ color: "red" }}>{error}</div>}
 
         {mapleCharacter && (
-          <div className="maple">
-            Character Name: {mapleCharacter.character_name}
-          </div>
+          <div className="maple">Character Name: {mapleCharacter.ocid}</div>
         )}
       </div>
     </div>
