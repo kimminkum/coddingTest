@@ -11,28 +11,23 @@
     <input id="name" type="text" />
     <button onclick="getSound()">API 요청</button>
     <script>
-      function solution(s) {
-        let word = [];
-        let answer = 0;
+      const API_KEY =
+        "test_d5d01dcf5a408a2f32d5662cccf248128aa0ee44db28deb4e95da08b2a4012a160b1f54ba0f445f36db292e67dfe4e33";
+      const characterName = "아델";
+      const urlString =
+        "https://open.api.nexon.com/heroes/v1/id?character_name=" +
+        characterName;
 
-        [...s].forEach((str, i) => {
-          word.push(str); //why
-
-          const same = word.filter((item) => item === word[0]);
-          const nSame = word.filter((item) => item !== word[0]);
-
-          if (same.length === nSame.length) {
-            answer += 1;
-            word = [];
-          }
-        });
-
-        if (word.length !== 0) {
-          answer += 1;
+      const answer = fetch(urlString, {
+        headers: {
+          "x-nxopen-api-key": API_KEY
         }
+      })
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => console.error(error));
 
-        return answer;
-      }
+      console.log(answer);
       // 1/ 7 react강의 전반 훑는 중. 배운 지식 정리
       //https://www.youtube.com/watch?v=HZlH8olDeAQ&list=PLRx0vPvlEmdCED62ZIWCbI-6G_jcwmuFB&index=4
     </script>
