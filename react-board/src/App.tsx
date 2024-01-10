@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import BoardList from "./BoradList";
@@ -11,30 +11,34 @@ interface MapleCharacter {
   ocid: string;
 }
 
+interface DetailCharacter {
+  character_class: string;
+  character_class_level: string;
+  world_name: string;
+  date: string;
+  character_gender: string;
+  character_guild_name: string;
+  character_level: number;
+  character_name: string;
+  character_image: string;
+}
+
 const App: React.FC = () => {
   const [name, setName] = useState("");
   const [mapleCharacter, setMapleCharacter] = useState<MapleCharacter | null>(
     null
   );
+  const [mapledetail, setMapledetail] = useState<DetailCharacter | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const currentDate = new Date();
+  const formattedDate = currentDate.toISOString().split("T")[0];
   const myApiKey =
     "test_d5d01dcf5a408a2f32d5662cccf248128aa0ee44db28deb4e95da08b2a4012a160b1f54ba0f445f36db292e67dfe4e33";
 
   const fetchData = async () => {
     setLoading(true);
     setError(null);
-    console.log(
-      "Request URL:",
-      `https://open.api.nexon.com/maplestory/v1/id?ocid=${encodeURIComponent(
-        name
-      )}`
-    );
-    // 요청 파라미터를 출력하여 확인
-    console.log("Request Parameters:", {
-      ocid: encodeURIComponent(name)
-      // 다른 필요한 파라미터도 필요에 따라 추가
-    });
 
     try {
       const response = await axios.get(
@@ -48,8 +52,25 @@ const App: React.FC = () => {
         }
       );
 
-      setMapleCharacter(response.data);
-      console.log("hi" + mapleCharacter?.ocid);
+      const mapleCharacterData = response.data; // 새로운 변수에 데이터 저장
+
+      setMapleCharacter(mapleCharacterData);
+
+      try {
+        console.log(mapleCharacterData?.ocid + formattedDate);
+        const res = await axios.get(
+          `https://open.api.nexon.com/maplestory/v1/character/basic?ocid=${mapleCharacterData?.ocid}&date=2024-01-06`,
+          {
+            headers: {
+              "x-nxopen-api-key": myApiKey
+            }
+          }
+        );
+        setMapledetail(res.data);
+      } catch (err) {
+        console.error("second error:", err);
+        setError("Error second data.");
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
       setError("Error fetching data. Please check the character name.");
@@ -65,6 +86,10 @@ const App: React.FC = () => {
       setError("Please enter a character name.");
     }
   };
+
+  useEffect(() => {
+    console.log(mapledetail);
+  }, [setMapledetail]);
 
   return (
     <div className="App">
@@ -97,7 +122,26 @@ const App: React.FC = () => {
         {error && <div style={{ color: "red" }}>{error}</div>}
 
         {mapleCharacter && (
-          <div className="maple">Character Name: {mapleCharacter.ocid}</div>
+          <div>
+            <div className="maple">Character Name: {mapleCharacter.ocid}</div>
+
+            {mapledetail && (
+              <div>
+                <div className="detail">
+                  <p>{mapledetail.character_guild_name}</p>
+                  <p>{mapledetail.character_class_level}</p>
+                  <p>{mapledetail.character_gender}</p>
+                  <p>{mapledetail.character_name}</p>
+                  <p>{mapledetail.character_level}</p>
+                  <p>{mapledetail.character_class}</p>
+                  <p>{mapledetail.world_name}</p>
+                  <p>{mapledetail.date}</p>
+
+                  <img src={mapledetail.character_image} alt="" />
+                </div>
+              </div>
+            )}
+          </div>
         )}
       </div>
     </div>
