@@ -23,15 +23,22 @@ interface DetailCharacter {
   character_image: string;
 }
 
+interface PopularCharacter {
+  popularity: number;
+  date: string;
+}
+
 const App: React.FC = () => {
   const [name, setName] = useState("");
   const [mapleCharacter, setMapleCharacter] = useState<MapleCharacter | null>(
     null
   );
   const [mapledetail, setMapledetail] = useState<DetailCharacter | null>(null);
+  const [populars, setPopulars] = useState<PopularCharacter | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const currentDate = new Date();
+  currentDate.setDate(currentDate.getDate() - 1);
   const formattedDate = currentDate.toISOString().split("T")[0];
   const myApiKey =
     "test_d5d01dcf5a408a2f32d5662cccf248128aa0ee44db28deb4e95da08b2a4012a160b1f54ba0f445f36db292e67dfe4e33";
@@ -59,14 +66,24 @@ const App: React.FC = () => {
       try {
         console.log(mapleCharacterData?.ocid + formattedDate);
         const res = await axios.get(
-          `https://open.api.nexon.com/maplestory/v1/character/basic?ocid=${mapleCharacterData?.ocid}&date=2024-01-06`,
+          `https://open.api.nexon.com/maplestory/v1/character/basic?ocid=${mapleCharacterData?.ocid}&date=${formattedDate}`,
           {
             headers: {
               "x-nxopen-api-key": myApiKey
             }
           }
         );
+        const res2 = await axios.get(
+          `https://open.api.nexon.com/maplestory/v1/character/popularity?ocid=${mapleCharacterData?.ocid}&date=${formattedDate}`,
+          {
+            headers: {
+              "x-nxopen-api-key": myApiKey
+            }
+          }
+        );
+
         setMapledetail(res.data);
+        setPopulars(res2.data);
       } catch (err) {
         console.error("second error:", err);
         setError("Error second data.");
@@ -136,6 +153,8 @@ const App: React.FC = () => {
                   <p>{mapledetail.character_class}</p>
                   <p>{mapledetail.world_name}</p>
                   <p>{mapledetail.date}</p>
+                  <p>{populars?.date}</p>
+                  <p>{populars?.popularity}</p>
 
                   <img src={mapledetail.character_image} alt="" />
                 </div>
