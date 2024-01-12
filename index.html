@@ -31,6 +31,22 @@
       // 1/ 7 react강의 전반 훑는 중. 배운 지식 정리
       //https://www.youtube.com/watch?v=HZlH8olDeAQ&list=PLRx0vPvlEmdCED62ZIWCbI-6G_jcwmuFB&index=4
     </script>
+    <script>
+      function solution(d, budget) {
+        d.sort((a, b) => a - b); // 배열을 오름차순으로 정렬
+
+        let answer = 0;
+
+        for (let i = 0; i < d.length; i++) {
+          answer += d[i];
+          if (answer > budget) {
+            return i;
+          }
+        }
+
+        return d.length;
+      }
+    </script>
     <script src="index.js"></script>
   </body>
 </html>
