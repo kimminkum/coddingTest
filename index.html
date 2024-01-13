@@ -32,19 +32,25 @@
       //https://www.youtube.com/watch?v=HZlH8olDeAQ&list=PLRx0vPvlEmdCED62ZIWCbI-6G_jcwmuFB&index=4
     </script>
     <script>
-      function solution(d, budget) {
-        d.sort((a, b) => a - b); // 배열을 오름차순으로 정렬
+      function solution(N, stages) {
+        var answer = [];
+        stages.sort((a, b) => a - b);
+        let bit = Array(N).fill(0);
 
-        let answer = 0;
+        for (let i = 1; i <= N; i++) {
+          answer.push(i);
+          let max = stages.filter((stage) => stage === i).length;
 
-        for (let i = 0; i < d.length; i++) {
-          answer += d[i];
-          if (answer > budget) {
-            return i;
+          if (max > 0) {
+            bit[i - 1] = max / stages.length;
+            stages.splice(0, max);
           }
         }
+        const sortedIndices = answer.sort((a, b) => bit[b - 1] - bit[a - 1]);
 
-        return d.length;
+        answer = sortedIndices;
+
+        return answer;
       }
     </script>
     <script src="index.js"></script>
