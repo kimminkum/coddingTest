@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import BoardList from "./BoradList";
@@ -7,7 +7,12 @@ import Detail from "./Detail";
 import KakaoApi from "./KakaoApi";
 import MapleApi from "./MapleApi";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import axios from "axios";
+
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
 
 const App: React.FC = () => {
   return (
