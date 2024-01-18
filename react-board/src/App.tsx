@@ -8,6 +8,12 @@ import KakaoApi from "./KakaoApi";
 import MapleApi from "./MapleApi";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
+
 const App: React.FC = () => {
   return (
     <div className="App">

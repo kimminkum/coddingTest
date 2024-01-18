@@ -3,27 +3,17 @@ import { useCookies } from "react-cookie";
 
 const KakaoLogin: React.FC = () => {
   const kakaoRestApiKey = "dfa29646980902382513abb967b3a190";
+  const kakaoJsApiKey = "fae8525c37a641272a708847243cf167";
   const redirectUri = "http://localhost:3000/auth";
+  //@ts-ignore
+  const Kakao = window.Kakao;
 
   const [cookies, setCookie] = useCookies(["authorize-access-token"]);
   const [token, setToken] = useState<string | null>(null);
 
-  // useEffect(() => {
-  //   displayToken();
-  // }, []);
-
   const loginWithKakao = () => {
     window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoRestApiKey}&redirect_uri=${redirectUri}&response_type=code`;
   };
-
-  // const displayToken = () => {
-  //   const storedToken = cookies["authorize-access-token"];
-  //   console.log("cookies : " + storedToken);
-
-  //   if (storedToken) {
-  //     setToken(storedToken);
-  //   }
-  // };
 
   return (
     <div>
