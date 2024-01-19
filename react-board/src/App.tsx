@@ -4,8 +4,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import BoardList from "./BoradList";
 import Write from "./Write";
 import Detail from "./Detail";
-import KakaoApi from "./KakaoApi";
+import KakaoApi from "./Components/KaKaoApi";
 import MapleApi from "./MapleApi";
+import JsKakao from "./Components/JsKakao";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 declare global {
@@ -33,6 +34,8 @@ const App: React.FC = () => {
         <MapleApi></MapleApi>
         {/* kakao */}
         <KakaoApi></KakaoApi>
+        <br />
+        <JsKakao></JsKakao>
       </div>
     </div>
   );
