@@ -35,7 +35,7 @@ const App: React.FC = () => {
         {/* kakao */}
         <KakaoApi></KakaoApi>
         <br />
-        <JsKakao></JsKakao>
+        {/* <JsKakao></JsKakao> */}
       </div>
     </div>
   );
