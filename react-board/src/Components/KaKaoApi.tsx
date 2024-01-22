@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import queryString from "query-string";
 import axios from "axios";
 
@@ -21,66 +21,67 @@ const KakaoLogin: React.FC = () => {
     window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoRestApiKey}&redirect_uri=${redirectUri}&response_type=code`;
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (query.code) {
-      getKakaoTokenHandler(query.code.toString());
+      fnGetKakaoOauthToken();
     }
   }, [query.code]);
 
-  const sendKakaoTokenToServer = async (accessToken: string) => {
-    try {
-      const res = await axios.post("/auth/kakao", {
-        access_token: accessToken
+  const fnGetKakaoOauthToken = async () => {
+    const makeFormData = (params: { [key: string]: string }) => {
+      const searchParams = new URLSearchParams();
+      Object.keys(params).forEach((key) => {
+        searchParams.append(key, params[key]);
       });
 
-      if (res.status === 201 || res.status === 200) {
-        const user = res.data.user;
-        window.localStorage.setItem(
-          "token",
-          JSON.stringify({
-            access_token: res.data.jwt
-          })
-        );
-      } else {
-        window.alert("로그인에 실패하였습니다.");
-      }
-    } catch (error) {
-      console.error(error);
+      return searchParams;
+    };
+
+    const code = query.code as string;
+
+    try {
+      const res = await axios({
+        method: "POST",
+        headers: {
+          "content-type": "application/x-www-form-urlencoded;charset=utf-8"
+        },
+        url: "https://kauth.kakao.com/oauth/token",
+        data: makeFormData({
+          grant_type: "authorization_code",
+          client_id: kakaoRestApiKey,
+          redirect_uri: redirectUri,
+          code // 인가 코드
+        })
+      });
+
+      fnGetKakaoUserInfo(res.data.access_token);
+      // sessionStorage/localStorage에 결과값 저장
+      // state에 kakao accesstoken 저장
+    } catch (err) {
+      console.warn(err);
     }
   };
 
-  const getKakaoTokenHandler = async (code: string) => {
+  const fnGetKakaoUserInfo = async (token: string) => {
     try {
-      const dataToSend: KakaoTokenData = {
-        grant_type: "authorization_code",
-        client_id: kakaoRestApiKey,
-        redirect_uri: redirectUri,
-        code: code
-      };
-      const queryStringToSend = Object.keys(dataToSend)
-        .map(
-          (key) =>
-            encodeURIComponent(key) +
-            "=" +
-            encodeURIComponent((dataToSend as any)[key])
-        )
-        .join("&");
+      const res = await axios({
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}` // 카카오 토큰 api로 얻은 accesstoken 보내기
+        },
+        url: "https://kapi.kakao.com/v2/user/me"
+      });
 
-      // 토큰 발급 REST API
-      const response = await axios.post(
-        "https://kauth.kakao.com/oauth/token",
-        queryStringToSend,
-        {
-          headers: {
-            "Content-type": "application/x-www-form-urlencoded;charset=utf-8"
-          }
-        }
-      );
-
-      // 서버에 전달
-      sendKakaoTokenToServer(response.data.access_token);
-    } catch (error) {
-      console.error(error);
+      // sessionStorage/localStorage에 사용자 정보 저장
+      console.log(res);
+      console.log(res.data.id.toString());
+      console.log(res.data.kakao_account.profile.nickname);
+      // fnUserInfoCheck(
+      //   res.data.id.toString(),
+      //   res.data.kakao_account.profile.nickname
+      // ); // 서비스 내 유저 조회를 위해 kakaoId, nickname 전달
+    } catch (e) {
+      console.log("e : ", e);
     }
   };
 
