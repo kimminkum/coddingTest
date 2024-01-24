@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import BoardList from "./BoradList";
@@ -16,6 +16,12 @@ declare global {
 }
 
 const App: React.FC = () => {
+  const [loginOn, setLoginOn] = useState<boolean>(false);
+
+  useEffect(() => {
+    console.log(loginOn);
+  }, [setLoginOn]);
+
   return (
     <div className="App">
       <div className="bg"></div>
@@ -33,7 +39,13 @@ const App: React.FC = () => {
         {/* maple */}
         <MapleApi></MapleApi>
         {/* kakao */}
-        <KakaoApi></KakaoApi>
+        {!loginOn && (
+          <KakaoApi
+            loginOn={loginOn}
+            onLoginStatusChange={setLoginOn}
+          ></KakaoApi>
+        )}
+        {loginOn && <div>logout 해야해</div>}
         <br />
         {/* <JsKakao></JsKakao> */}
       </div>

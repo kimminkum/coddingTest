@@ -9,7 +9,15 @@ interface KakaoTokenData {
   code: string;
 }
 
-const KakaoLogin: React.FC = () => {
+interface KakaoApiProps {
+  loginOn: boolean;
+  onLoginStatusChange: (isLoggedIn: boolean) => void;
+}
+
+const KakaoLogin: React.FC<KakaoApiProps> = ({
+  loginOn,
+  onLoginStatusChange
+}) => {
   const kakaoRestApiKey = "dfa29646980902382513abb967b3a190";
   const kakaoJsApiKey = "fae8525c37a641272a708847243cf167";
   const redirectUri = "http://localhost:3000/auth";
@@ -76,6 +84,7 @@ const KakaoLogin: React.FC = () => {
       console.log(res);
       console.log(res.data.id.toString());
       console.log(res.data.kakao_account.profile.nickname);
+      onLoginStatusChange(!loginOn);
       // fnUserInfoCheck(
       //   res.data.id.toString(),
       //   res.data.kakao_account.profile.nickname
