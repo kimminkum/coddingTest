@@ -1,3 +1,4 @@
+//KakaoApi
 import React, { useEffect, useState } from "react";
 import queryString from "query-string";
 import axios from "axios";
@@ -11,7 +12,12 @@ interface KakaoTokenData {
 
 interface KakaoApiProps {
   loginOn: boolean;
-  onLoginStatusChange: (isLoggedIn: boolean) => void;
+  onLoginStatusChange: (data: {
+    isLoggedIn: boolean;
+    accessToken: string;
+    userId: string;
+    nickname: string;
+  }) => void;
 }
 
 const KakaoLogin: React.FC<KakaoApiProps> = ({
@@ -84,7 +90,12 @@ const KakaoLogin: React.FC<KakaoApiProps> = ({
       console.log(res);
       console.log(res.data.id.toString());
       console.log(res.data.kakao_account.profile.nickname);
-      onLoginStatusChange(!loginOn);
+      onLoginStatusChange({
+        isLoggedIn: !loginOn,
+        accessToken: token,
+        userId: res.data.id.toString(),
+        nickname: res.data.kakao_account.profile.nickname
+      });
       // fnUserInfoCheck(
       //   res.data.id.toString(),
       //   res.data.kakao_account.profile.nickname

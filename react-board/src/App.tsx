@@ -8,6 +8,7 @@ import KakaoApi from "./Components/KaKaoApi";
 import MapleApi from "./MapleApi";
 import JsKakao from "./Components/JsKakao";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import KakaoLogout from "./Components/KakaoLogout";
 
 declare global {
   interface Window {
@@ -17,6 +18,17 @@ declare global {
 
 const App: React.FC = () => {
   const [loginOn, setLoginOn] = useState<boolean>(false);
+
+  const handleLoginStatusChange = async (data: {
+    isLoggedIn: boolean;
+    accessToken: string;
+    userId: string;
+    nickname: string;
+  }) => {
+    await setLoginOn(data.isLoggedIn);
+    // 여기서 토큰 값을 사용하거나 필요한 작업을 수행할 수 있습니다.
+    console.log("hit : " + data.accessToken);
+  };
 
   useEffect(() => {
     console.log(loginOn);
@@ -42,10 +54,15 @@ const App: React.FC = () => {
         {!loginOn && (
           <KakaoApi
             loginOn={loginOn}
-            onLoginStatusChange={setLoginOn}
+            onLoginStatusChange={handleLoginStatusChange}
           ></KakaoApi>
         )}
-        {loginOn && <div>logout 해야해</div>}
+        {loginOn && (
+          <KakaoLogout
+            loginOn={loginOn}
+            onLoginStatusChange={handleLoginStatusChange}
+          ></KakaoLogout>
+        )}
         <br />
         {/* <JsKakao></JsKakao> */}
       </div>
