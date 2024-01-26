@@ -18,6 +18,7 @@ declare global {
 
 const App: React.FC = () => {
   const [loginOn, setLoginOn] = useState<boolean>(false);
+  const [name, setName] = useState<string | null>(null);
 
   const handleLoginStatusChange = async (data: {
     isLoggedIn: boolean;
@@ -28,10 +29,13 @@ const App: React.FC = () => {
     await setLoginOn(data.isLoggedIn);
     // 여기서 토큰 값을 사용하거나 필요한 작업을 수행할 수 있습니다.
     console.log("hit : " + data.accessToken);
+    console.log("hit : " + data.nickname);
+    setName(data.nickname);
   };
 
   useEffect(() => {
     console.log(loginOn);
+    console.log(name);
   }, [setLoginOn]);
 
   return (

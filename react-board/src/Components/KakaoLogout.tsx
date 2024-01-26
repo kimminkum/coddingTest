@@ -1,4 +1,5 @@
 import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 interface KakaoApiProps {
   loginOn: boolean;
@@ -7,16 +8,20 @@ interface KakaoApiProps {
     accessToken: string;
     userId: string;
     nickname: string;
-  }) => Promise<void>;
+  }) => void;
 }
 
 const KakaoLogout: React.FC<KakaoApiProps> = ({
   loginOn,
   onLoginStatusChange
 }) => {
+  const [names, setNames] = useState<string | null>(null);
+
   const kakaoLogout = async () => {
     try {
       const { accessToken, userId, nickname } = await getAccessToken(); //
+
+      setNames(nickname);
 
       await axios({
         method: "POST",
@@ -28,6 +33,12 @@ const KakaoLogout: React.FC<KakaoApiProps> = ({
       });
 
       // 로그아웃 성공 후에 필요한 작업 수행
+      onLoginStatusChange({
+        isLoggedIn: !loginOn,
+        accessToken: "",
+        userId: "",
+        nickname: ""
+      });
       window.location.href = "/";
     } catch (e: any) {
       console.log("e : ", e);
@@ -39,6 +50,10 @@ const KakaoLogout: React.FC<KakaoApiProps> = ({
       }
     }
   };
+
+  useEffect(() => {
+    console.log("b2 : " + names);
+  }, [names]);
 
   // 실제 토큰 값을 받아오는 함수를 추가
   const getAccessToken = async () => {
