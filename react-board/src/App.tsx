@@ -18,25 +18,31 @@ declare global {
 
 const App: React.FC = () => {
   const [loginOn, setLoginOn] = useState<boolean>(false);
-  const [name, setName] = useState<string | null>(null);
+  const [userInfo, setUserInfo] = useState<{
+    accessToken: string;
+    userId: string;
+    nickname: string;
+  } | null>(null);
 
-  const handleLoginStatusChange = async (data: {
+  const handleLoginStatusChange = (data: {
     isLoggedIn: boolean;
     accessToken: string;
     userId: string;
     nickname: string;
   }) => {
-    await setLoginOn(data.isLoggedIn);
-    // 여기서 토큰 값을 사용하거나 필요한 작업을 수행할 수 있습니다.
-    console.log("hit : " + data.accessToken);
-    console.log("hit : " + data.nickname);
-    setName(data.nickname);
+    setLoginOn(data.isLoggedIn);
+    setUserInfo({
+      accessToken: data.accessToken,
+      userId: data.userId,
+      nickname: data.nickname
+    });
   };
 
   useEffect(() => {
+    console.log("hi");
     console.log(loginOn);
-    console.log(name);
-  }, [setLoginOn]);
+    console.log(userInfo);
+  }, [loginOn, userInfo]);
 
   return (
     <div className="App">
@@ -65,6 +71,7 @@ const App: React.FC = () => {
           <KakaoLogout
             loginOn={loginOn}
             onLoginStatusChange={handleLoginStatusChange}
+            userInfo={userInfo}
           ></KakaoLogout>
         )}
         <br />

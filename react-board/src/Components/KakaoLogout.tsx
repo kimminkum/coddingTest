@@ -9,20 +9,23 @@ interface KakaoApiProps {
     userId: string;
     nickname: string;
   }) => void;
+  userInfo: {
+    accessToken: string;
+    userId: string;
+    nickname: string;
+  } | null;
 }
 
 const KakaoLogout: React.FC<KakaoApiProps> = ({
   loginOn,
-  onLoginStatusChange
+  onLoginStatusChange,
+  userInfo
 }) => {
   const [names, setNames] = useState<string | null>(null);
 
   const kakaoLogout = async () => {
     try {
       const { accessToken, userId, nickname } = await getAccessToken(); //
-
-      setNames(nickname);
-
       await axios({
         method: "POST",
         url: "https://kapi.kakao.com/v1/user/logout",
@@ -52,16 +55,25 @@ const KakaoLogout: React.FC<KakaoApiProps> = ({
   };
 
   useEffect(() => {
-    console.log("b2 : " + names);
-  }, [names]);
+    const resData = async () => {
+      // 여기에서도 userInfo의 정보 활용
+      if (userInfo) {
+        const { accessToken, userId, nickname } = await getAccessToken();
+      }
+    };
+
+    resData();
+    console.log("hey");
+    console.log(userInfo);
+  }, [names, userInfo]);
 
   // 실제 토큰 값을 받아오는 함수를 추가
   const getAccessToken = async () => {
     // 여기에 실제 토큰 값을 받아오는 로직을 추가
     return {
-      accessToken: "your_actual_token_value",
-      userId: "your_actual_user_id",
-      nickname: "your_actual_nickname"
+      accessToken: userInfo?.accessToken,
+      userId: userInfo?.userId,
+      nickname: userInfo?.nickname
     };
   };
 
