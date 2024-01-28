@@ -18,6 +18,8 @@ declare global {
 
 const App: React.FC = () => {
   const [loginOn, setLoginOn] = useState<boolean>(false);
+  // userInfo를 여기다가 써서 저장하고 다시 보내야한다.
+  // 자식노드에서 얻은 데이터를 위로 올려서 다른 자식에게 보낼때의 방법인것같다.
   const [userInfo, setUserInfo] = useState<{
     accessToken: string;
     userId: string;
