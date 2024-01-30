@@ -170,7 +170,15 @@ form {
   box-shadow: 5px 5px rgba(24, 24, 24, 0.9);
 }
 
-
+#map {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  min-width: 320px;
+  min-height: 320px;
+  outline: 1px solid red;
+  position: relative;
+}
 
 @media screen and (min-width: 1240px) {
   .base {

@@ -7,14 +7,10 @@ import Detail from "./Detail";
 import KakaoApi from "./Components/KaKaoApi";
 import MapleApi from "./MapleApi";
 import JsKakao from "./Components/JsKakao";
+import KakaoMap from "./Components/KakaoMap";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import KakaoLogout from "./Components/KakaoLogout";
-
-declare global {
-  interface Window {
-    Kakao: any;
-  }
-}
+import "./Styled/basic.scss";
 
 const App: React.FC = () => {
   const [loginOn, setLoginOn] = useState<boolean>(false);
@@ -78,6 +74,8 @@ const App: React.FC = () => {
         )}
         <br />
         {/* <JsKakao></JsKakao> */}
+        <br />
+        <KakaoMap></KakaoMap>
       </div>
     </div>
   );
