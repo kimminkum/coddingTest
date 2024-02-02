@@ -20,6 +20,27 @@ const KakaoMap: React.FC = () => {
     const initializedMap = new window.kakao.maps.Map(container, options);
     setMap(initializedMap);
 
+    // 지도에 클릭 이벤트를 등록합니다
+    // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
+    if (initializedMap) {
+      window.kakao.maps.event.addListener(
+        initializedMap,
+        "click",
+        function (mouseEvent: any) {
+          // 클릭한 위도, 경도 정보를 가져옵니다
+          var latlng = mouseEvent.latLng;
+
+          var message = "클릭한 위치의 위도는 " + latlng.getLat() + " 이고, ";
+          message += "경도는 " + latlng.getLng() + " 입니다";
+
+          var resultDiv = document.getElementById("result");
+          if (resultDiv) {
+            resultDiv.innerHTML = message;
+          }
+        }
+      );
+    }
+
     var markerPosition = new window.kakao.maps.LatLng(
       34.365264512305174,
       126.10676860117488
@@ -94,11 +115,15 @@ const KakaoMap: React.FC = () => {
             />
           </span>
         </div>
-        <p>
-          <button onClick={zoomIn}>지도레벨 - 1</button>
-          <button onClick={zoomOut}>지도레벨 + 1</button>
-          <span id="maplevel">"현재 지도 레벨은 {mapLevel} 레벨 입니다."</span>
-        </p>
+      </div>
+      <div className="res">
+        <div id="result"></div>
+        <button onClick={zoomIn}>지도레벨 - 1</button>
+        <button onClick={zoomOut}>지도레벨 + 1</button>
+        <span id="maplevel">
+          "현재 지도 레벨은 {mapLevel} 레벨 입니다."
+          <hr />
+        </span>
       </div>
     </div>
   );
