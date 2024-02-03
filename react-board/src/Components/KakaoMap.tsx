@@ -20,6 +20,13 @@ const KakaoMap: React.FC = () => {
     const initializedMap = new window.kakao.maps.Map(container, options);
     setMap(initializedMap);
 
+    var marker = new window.kakao.maps.Marker({
+      // 지도 중심좌표에 마커를 생성합니다
+      position: map.getCenter()
+    });
+
+    marker.setMap(initializedMap);
+
     // 지도에 클릭 이벤트를 등록합니다
     // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
     if (initializedMap) {
@@ -29,6 +36,8 @@ const KakaoMap: React.FC = () => {
         function (mouseEvent: any) {
           // 클릭한 위도, 경도 정보를 가져옵니다
           var latlng = mouseEvent.latLng;
+
+          marker.setPosition(latlng);
 
           var message = "클릭한 위치의 위도는 " + latlng.getLat() + " 이고, ";
           message += "경도는 " + latlng.getLng() + " 입니다";
@@ -41,14 +50,14 @@ const KakaoMap: React.FC = () => {
       );
     }
 
-    var markerPosition = new window.kakao.maps.LatLng(
-      34.365264512305174,
-      126.10676860117488
-    );
-    var marker = new window.kakao.maps.Marker({
-      position: markerPosition
-    });
-    marker.setMap(initializedMap);
+    // var markerPosition = new window.kakao.maps.LatLng(
+    //   34.365264512305174,
+    //   126.10676860117488
+    // );
+    // var marker = new window.kakao.maps.Marker({
+    //   position: markerPosition
+    // });
+    // marker.setMap(initializedMap);
   }, [mapLevel]);
 
   function zoomIn() {
