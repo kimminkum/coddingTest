@@ -22,7 +22,7 @@ const KakaoMap: React.FC = () => {
 
     var marker = new window.kakao.maps.Marker({
       // 지도 중심좌표에 마커를 생성합니다
-      position: map.getCenter()
+      position: initializedMap.getCenter()
     });
 
     marker.setMap(initializedMap);
@@ -45,6 +45,26 @@ const KakaoMap: React.FC = () => {
           var resultDiv = document.getElementById("result");
           if (resultDiv) {
             resultDiv.innerHTML = message;
+          }
+        }
+      );
+    }
+
+    if (initializedMap) {
+      window.kakao.maps.event.addListener(
+        initializedMap,
+        "dragend",
+        function () {
+          // 지도 중심좌표를 얻어옵니다
+          var latlng2 = initializedMap.getCenter();
+
+          var message2 =
+            "변경된 지도 중심좌표는 " + latlng2.getLat() + " 이고, ";
+          message2 += "경도는 " + latlng2.getLng() + " 입니다";
+
+          var resulted = document.getElementById("haves");
+          if (resulted) {
+            resulted.innerHTML = message2;
           }
         }
       );
@@ -126,7 +146,8 @@ const KakaoMap: React.FC = () => {
         </div>
       </div>
       <div className="res">
-        <div id="result"></div>
+        <div id="result">res</div>
+        <div id="haves">hav</div>
         <button onClick={zoomIn}>지도레벨 - 1</button>
         <button onClick={zoomOut}>지도레벨 + 1</button>
         <span id="maplevel">
