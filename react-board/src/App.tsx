@@ -11,6 +11,7 @@ import KakaoMap from "./Components/KakaoMap";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import KakaoLogout from "./Components/KakaoLogout";
 import "./Styled/basic.scss";
+import SEO from "./Seo";
 
 const App: React.FC = () => {
   const [loginOn, setLoginOn] = useState<boolean>(false);
@@ -76,6 +77,12 @@ const App: React.FC = () => {
         {/* <JsKakao></JsKakao> */}
         <br />
         <KakaoMap></KakaoMap>
+        <br />
+        <SEO
+          title="kmk react"
+          description="공부하는 사이트"
+          keywords={["키워드1", "키워드2", "키워드3"]}
+        ></SEO>
       </div>
     </div>
   );
