@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./Styled/basic.scss";
+
+import SEO from "./Seo";
+import Search from "./Search";
 import BoardList from "./BoradList";
 import Write from "./Write";
 import Detail from "./Detail";
@@ -8,10 +13,7 @@ import KakaoApi from "./Components/KaKaoApi";
 import MapleApi from "./MapleApi";
 import JsKakao from "./Components/JsKakao";
 import KakaoMap from "./Components/KakaoMap";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 import KakaoLogout from "./Components/KakaoLogout";
-import "./Styled/basic.scss";
-import SEO from "./Seo";
 
 const App: React.FC = () => {
   const [loginOn, setLoginOn] = useState<boolean>(false);
@@ -48,14 +50,14 @@ const App: React.FC = () => {
       <div className="bg"></div>
 
       <div className="base">
-        {/* <BrowserRouter>
+        <BrowserRouter>
           <Routes>
             <Route path="/write" element={<Write />} />
             <Route path="/write/:id" element={<Write />} />
             <Route path="/detail/:id" element={<Detail />} />
             <Route path="/" element={<BoardList />} />
           </Routes>
-        </BrowserRouter> */}
+        </BrowserRouter>
 
         {/* maple */}
         <MapleApi></MapleApi>
@@ -83,6 +85,9 @@ const App: React.FC = () => {
           description="공부하는 사이트"
           keywords={["키워드1", "키워드2", "키워드3"]}
         ></SEO>
+        {/* 자동완성 최근 검색어 저장 및 구현하기 */}
+
+        <Search></Search>
       </div>
     </div>
   );
