@@ -103,6 +103,8 @@ const Search: React.FC<SearchProps> = () => {
       )}
       <div>
         <p>Recent Searches:</p>
+        <p>제가 생각한 것과는 다름 검색결과를 활용하는 방식을 알아야할듯</p>
+        <h1>설날</h1>
         <ul>
           {recentSearches.map((recent, index) => (
             <li key={index} onClick={() => handleResultClick(recent)}>
