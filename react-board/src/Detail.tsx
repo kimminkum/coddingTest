@@ -16,10 +16,6 @@ interface CommentItem {
   redet_content: string;
 }
 
-interface RouteParams {
-  id: string;
-}
-
 const Detail: React.FC = () => {
   const { id } = useParams();
   const parsedId = id ? parseInt(id) : undefined;
