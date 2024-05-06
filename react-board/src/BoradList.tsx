@@ -6,6 +6,9 @@ import "./Styled/basic.scss";
 import "./Styled/board.scss";
 import Table from "react-bootstrap/Table";
 
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+
 interface Board {
   BOARD_ID: number;
   BOARD_TITLE: string;
@@ -13,9 +16,14 @@ interface Board {
   // 다른 필요한 속성들 추가
 }
 
+function reducer(state: number, action: any) {
+  return state;
+}
+
 const BoardList: React.FC = () => {
   const [boardList, setBoardList] = useState<Board[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  // let store = createStore(reducer);
 
   useEffect(() => {
     axios
