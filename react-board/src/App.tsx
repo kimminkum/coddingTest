@@ -3,6 +3,7 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./Styled/basic.scss";
+import { useSelector } from "react-redux";
 
 import SEO from "./Seo";
 import Search from "./Search";
